@@ -31,20 +31,15 @@ def load_listings(f):
     full_path = os.path.join(base_path, f)
 
     # TODO: Read the CSV using csv.reader and convert it to a list a dictionaries
-    inFile = open(f, "r")
-    csv_reader = csv.reader(inFile)
-
-    headers = next(csv_reader)
-    result_list = []
-
-    # Read in lines create each dictionary.
-    for line in csv_reader:
-        cur_dict = {}
-        for i in range(len(headers)):
-            cur_dict[headers[i]] = line[i]
-        
-        # Add the created dictionary to our list.
-        result_list.append(cur_dict)
+    with open(full_path, 'r', encoding='utf-8') as file_in:
+        csv_reader = csv.reader(file_in)
+        headers = next(csv_reader)
+        result_list = []
+        for row in csv_reader:
+            cur_dict = {}
+            for i, col in enumerate(headers):
+                cur_dict[col] = row[i]
+            result_list.append(cur_dict)
 
     return result_list
 
@@ -66,8 +61,27 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
         dict mapping (neighbourhood_group, room_type) -> average_price (float)
         e.g. { ('Downtown', 'Entire home/apt'): 123.45, ... }
     """
-    pass
+    price_sum = {}
+    price_count = {}
+    for listing in listings:
+        neighbourhood_group = listing["neighbourhood_group"]
+        room_type = listing["room_type"]
+        price = float(listing["price"])
 
+        # Key for return dictionary.
+        listing_key = (neighbourhood_group, room_type)
+        if listing_key in price_sum:
+            price_sum[listing_key] += price
+            price_count[listing_key] += 1
+        else:
+            price_sum[listing_key] = price
+            price_count[listing_key] = 1
+
+    average_price = {}
+    for key in price_sum:
+        average_price[key] = price_sum[key] / price_count[key]
+
+    return average_price
 
 
 ###############################################################################
