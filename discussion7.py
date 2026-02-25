@@ -102,7 +102,7 @@ def write_summary_csv(out_filename, avg_prices):
         None
             Writes a CSV file with header: neighbourhood_group, room_type, average_price
     """
-    with open(out_filename, "w", encoding="utf-8") as outFile:
+    with open(out_filename, "w", newline="", encoding="utf-8") as outFile:
         csv_writer = csv.writer(outFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow(["neighbourhood_group", "room_type", "average_price"])
         for tuple, price in avg_prices.items():
