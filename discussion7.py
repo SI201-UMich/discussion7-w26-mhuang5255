@@ -106,7 +106,7 @@ def write_summary_csv(out_filename, avg_prices):
         csv_writer = csv.writer(outFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow(["neighbourhood_group", "room_type", "average_price"])
         for tuple, price in avg_prices.items():
-            csv_writer.writerow(tuple[0], tuple[1], price)
+            csv_writer.writerow([tuple[0], tuple[1], price])
 
 ###############################################################################
 ##### UNIT TESTS (Do not modify the code below!)
